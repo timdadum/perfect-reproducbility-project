@@ -91,8 +91,7 @@ def main():
 
     # Log on each process the small summary:
     logger.warning(
-        f"Process rank: {training_args.local_rank}, device: {training_args.device}, n_gpu: {training_args.n_gpu}"
-        + f"distributed training: {bool(training_args.local_rank != -1)}, 16-bits training: {training_args.fp16}"
+        "Something with logger"
     )
     logger.info(f"Training/evaluation parameters {training_args}")
 
@@ -102,13 +101,11 @@ def main():
         last_checkpoint = get_last_checkpoint(training_args.output_dir)
         if last_checkpoint is None and len(os.listdir(training_args.output_dir)) > 0:
             raise ValueError(
-                f"Output directory ({training_args.output_dir}) already exists and is not empty. "
-                "Use --overwrite_output_dir to overcome."
+                "Output directory"
             )
         elif last_checkpoint is not None and training_args.resume_from_checkpoint is None:
             logger.info(
-                f"Checkpoint detected, resuming training at {last_checkpoint}. To avoid this behavior, change "
-                "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
+                "Resuming from checkpoint"
             )
 
     # Set seed before initializing model.
@@ -134,8 +131,7 @@ def main():
         tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path, **tokenizer_kwargs)
     else:
         raise ValueError(
-            "You are instantiating a new tokenizer from scratch. This is not supported by this script."
-            "You can do it from another script, save it, and load it from here, using --tokenizer_name."
+            "Token error"
         )
     adapter_config = get_adapter_config(adapter_args)
     processor = AutoProcessor.get(
@@ -180,7 +176,7 @@ def main():
         config = RobertaConfig()
         logger.warning("You are instantiating a new config instance from scratch.")
         if model_args.config_overrides is not None:
-            logger.info(f"Overriding config: {model_args.config_overrides}")
+            logger.info("Overriding config")
             config.update_from_string(model_args.config_overrides)
 
     set_config_args(config, training_args)
